@@ -108,7 +108,7 @@ public class LeftOuterJoinJsonTableFilterFilteredPageOutput
         for (Column jsonColumn: jsonColumns) {
             // get value from JSON Table
             String rowKey = getCurrentJoinBaseColumnValue(pageReader, joinBaseColumn);
-            if (rowKey == null) {
+            if (!jsonTable.containsKey(rowKey) || !jsonTable.get(rowKey).containsKey(jsonColumn.getName())) {
                 pageBuilder.setNull(jsonColumn);
                 continue;
             }
