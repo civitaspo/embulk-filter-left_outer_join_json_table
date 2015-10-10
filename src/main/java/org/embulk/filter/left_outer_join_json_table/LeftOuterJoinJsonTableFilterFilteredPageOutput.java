@@ -1,5 +1,6 @@
 package org.embulk.filter.left_outer_join_json_table;
 
+import com.google.common.base.Throwables;
 import org.embulk.spi.Column;
 import org.embulk.spi.Exec;
 import org.embulk.spi.Page;
@@ -19,6 +20,7 @@ import java.util.List;
 public class LeftOuterJoinJsonTableFilterFilteredPageOutput
     implements PageOutput
 {
+    private final org.slf4j.Logger logger = Exec.getLogger(LeftOuterJoinJsonTableFilterFilteredPageOutput.class);
     private final PageReader pageReader;
     private final PageOutput pageOutput;
     private final Schema inputSchema;
@@ -105,8 +107,13 @@ public class LeftOuterJoinJsonTableFilterFilteredPageOutput
     private void setJoinedJsonValue(PageBuilder pageBuilder) {
         for (Column jsonColumn: jsonColumns) {
             // get value from JSON Table
-            String value = jsonTable.get(getCurrentJoinBaseColumnValue(pageReader, joinBaseColumn)).get(jsonColumn.getName());
+            String rowKey = getCurrentJoinBaseColumnValue(pageReader, joinBaseColumn);
+            if (rowKey == null) {
+                pageBuilder.setNull(jsonColumn);
+                continue;
+            }
 
+            String value = jsonTable.get(rowKey).get(jsonColumn.getName());
             if (value == null) {
                 pageBuilder.setNull(jsonColumn);
                 continue;
@@ -131,7 +138,12 @@ public class LeftOuterJoinJsonTableFilterFilteredPageOutput
         }
     }
 
-    private static String getCurrentJoinBaseColumnValue(PageReader pageReader, Column joinBaseColumn) {
+    private static String getCurrentJoinBaseColumnValue(PageReader pageReader, Column joinBaseColumn)
+    {
+        if (pageReader.isNull(joinBaseColumn)) {
+            return null;
+        }
+
         if (Types.STRING.equals(joinBaseColumn.getType())) {
             return pageReader.getString(joinBaseColumn);
         }
@@ -148,6 +160,6 @@ public class LeftOuterJoinJsonTableFilterFilteredPageOutput
             return String.valueOf(pageReader.getTimestamp(joinBaseColumn));
         }
 
-        return null;
+        throw Throwables.propagate(new Throwable("Unsupported Column Type: " + joinBaseColumn.getType()));
     }
 }
