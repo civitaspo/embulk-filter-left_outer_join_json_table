@@ -16,44 +16,7 @@
     "city": "Carletonberg"
   },
   {
-    "id": 2,
-    "name": "Natalia Murray DVM",
-    "created_at": "2015-10-08 14:14:41 +0900",
-    "point": -3207.3943313229197,
-    "time_zone": "Asia/Magadan",
-    "city": "Port Lilatown"
-  },
-  {
-    "id": 3,
-    "name": "Ms. Alfredo Fisher",
-    "created_at": "2015-10-09 00:16:40 +0900",
-    "point": 1981.0534727982515,
-    "time_zone": "Asia/Kamchatka",
-    "city": "Justynchester"
-  },
-  {
-    "id": 4,
-    "name": "Arnold Rutherford",
-    "created_at": "2015-10-08 22:46:32 +0900",
-    "point": -1905.529341532991,
-    "time_zone": "Europe/Riga",
-    "city": "Lake Darion"
-  },
-  {
-    "id": 5,
-    "name": "Wayne Osinski",
-    "created_at": "2015-10-09 04:54:43 +0900",
-    "point": 1555.4850613912663,
-    "time_zone": "America/Indiana/Indianapolis",
-    "city": "New Jaleel"
-  },
-  {
-    "id": 6,
-    "name": "Mr. Garnet Roberts",
-    "created_at": "2015-10-08 12:11:15 +0900",
-    "point": -3688.2116646435834,
-    "time_zone": "Pacific/Fiji",
-    "city": "Port Noemiemouth"
+    "id": 6
   },
   {
     "id": 7,
